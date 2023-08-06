@@ -1250,34 +1250,68 @@
           </div>
 
           <div class="col-lg-8 mt-5 mt-lg-0">
-
-            <form action="mailto:odhaventerpriseindia@gmail.com" enctype="text/plain" method="post" role="form"
-              class="php-email-form">
-              <div class="row">
-                <div class="col-md-6 form-group">
-                  <input type="text" name="name" class="form-control" id="name" placeholder="Your Name" required>
-                </div>
-                <div class="col-md-6 form-group mt-3 mt-md-0">
-                  <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
-                </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <input type="text" name="sendername" class="form-control" id="sendername" placeholder="Your Name"
+                  required>
               </div>
-              <div class="form-group mt-3">
-                <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+              <div class="col-md-6 form-group mt-3 mt-md-0">
+                <input type="email" class="form-control" name="email" id="email" placeholder="Your Email" required>
               </div>
-              <div class="form-group mt-3">
-                <textarea class="form-control" name="message" rows="5" placeholder="Message" required></textarea>
-              </div>
-              <div class="my-3">
-                <div class="loading">Loading</div>
-                <div class="error-message"></div>
-                <div class="sent-message">Your message has been sent. Thank you!</div>
-              </div>
-              <div class="text-center"><button value="Send" type="submit">Send Message</button></div>
-            </form>
-
+            </div>
+            <div class="form-group mt-3">
+              <input type="text" class="form-control" name="subject" id="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group mt-3">
+              <textarea class="form-control" name="message" rows="5" id="message" placeholder="Message"
+                required></textarea>
+            </div>
+            <div class="text-center">
+              <button onclick="sendMail();" type="button">Send Message</button>
+              <div id="loadingPlaceholder" style="display: none;">Sending...</div>
+            </div>
           </div>
 
+          <script src="https://cdn.emailjs.com/dist/email.min.js"></script>
+          <script>
+            function sendMail() {
+              var sendButton = document.querySelector("button");
+              var loadingPlaceholder = document.getElementById("loadingPlaceholder");
+
+              sendButton.disabled = true; // Disable the button while sending
+              loadingPlaceholder.style.display = "block"; // Show the loading placeholder
+
+              emailjs.init("cyYDky43N9jEIasxj"); // Replace YOUR_USER_ID with your EmailJS User ID
+
+              var params = {
+                sendername: document.querySelector("#sendername").value,
+                to: "technicaljaivish@gmail.com", // Replace this with the recipient's email address
+                subject: document.querySelector("#subject").value,
+                message: document.querySelector("#message").value,
+              };
+
+              var serviceID = "service_tqfcb3z"; // Replace with your EmailJS service ID
+              var templateID = "template_915oxk9"; // Replace with your EmailJS template ID
+
+              emailjs.send(serviceID, templateID, params)
+                .then(function (response) {
+                  alert("Email sent successfully!!");
+                  console.log("Email sent successfully:", response);
+                })
+                .catch(function (error) {
+                  alert("Failed to send email. Please try again later.");
+                  console.error("Failed to send email:", error);
+                })
+                .finally(function () {
+                  loadingPlaceholder.style.display = "none"; // Hide the loading placeholder
+                  sendButton.disabled = false; // Enable the button after sending
+                });
+            }
+          </script>
+
         </div>
+
+      </div>
 
       </div>
     </section>
